@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meshing Page</title>
+</head>
+<body>
+<label for="image_input">Load Image</label><input id="image_input" type="file" onchange="loadImage()">
+<canvas id="webgl" width="500" height="500" onload="main()"></canvas>
+
+<script src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>
+<script type="text/javascript" src="../lib/webgl-utils.js"></script>
+<script type="text/javascript" src="../lib/webgl-debug.js"></script>
+<script type="text/javascript" src="../lib/cuon-utils.js"></script>
+<script type="text/javascript" src="../lib/cuon-matrix.js"></script>
+<script type="text/javascript" src="Logic.js"></script>
+</body>
+</html>
