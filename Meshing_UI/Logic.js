@@ -105,6 +105,7 @@ function loadImage(e) {
         URL.revokeObjectURL(inputImage.src);
     };
     inputImage.src = URL.createObjectURL(e.target.files[0]);
+    currentMesh.imageURL = "../resources/sky.jpg";
     redraw();
 }
 
@@ -124,10 +125,12 @@ function drawTriangles() {
     }
     let triangles = Delaunator.from(floatArr);
     // console.log(triangles.triangles);
-    currentMesh.triangleIndexes = triangles.triangles;
+    currentMesh.triangleIndexes = [];
+    currentMesh.triangleIndexesLength = triangles.triangles.length;
     let verticesLArr = [];
     for(let i = 0; i < triangles.triangles.length; i++){
         let index = triangles.triangles[i];
+        currentMesh.triangleIndexes.push(index);
         verticesLArr.push((floatArr[index][0]- currentMesh.width / 2) / currentMesh.width * 2,
             -(floatArr[index][1] - currentMesh.height / 2) / currentMesh.height * 2);
     }
@@ -294,12 +297,19 @@ function drawPoints(points, special) {
     gl.deleteBuffer(vertexBuffer);
 }
 
+function saveMesh() {
+    let name = document.getElementById("file-name").value;
+    saveObject(currentMesh, name+".mesh");
+}
+
 class Mesh {
     constructor(width, height) {
         this.width = width;
         this.height = height;
         this.points = [];
         this.triangleIndexes = [];
+        this.triangleIndexesLength = 0;
+        this.imageURL = "";
     }
 }
 
