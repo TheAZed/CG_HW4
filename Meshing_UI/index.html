@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>Meshing Page</title>
 </head>
-<body>
-<label for="image_input">Load Image</label><input id="image_input" type="file" onchange="loadImage()">
+<body onload="main()">
+<label for="image-input">Load Image</label><input id="image-input" type="file" onchange="loadImage">
+<label for="add-button">Add Points</label><input id="add-button" type="radio" name="operation" value="add" onchange="setOperationToAdd()">
+<label for="move-button">Move Points</label><input id="move-button" type="radio" name="operation" value="move" onchange="setOperationToMove()">
+<br>
 <canvas id="webgl" width="500" height="500" onload="main()"></canvas>
 
 <script src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>
@@ -14,5 +17,6 @@
 <script type="text/javascript" src="../lib/cuon-utils.js"></script>
 <script type="text/javascript" src="../lib/cuon-matrix.js"></script>
 <script type="text/javascript" src="Logic.js"></script>
+<script type="text/javascript" src="../lib/FileHandler.js"></script>
 </body>
 </html>
