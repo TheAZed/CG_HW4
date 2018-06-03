@@ -55,14 +55,29 @@ function main() {
     textureProgram = createProgram(gl, VSHADER_SOURCE, FSHADER_SOURCE);
 
     window.addEventListener("mousemove", function (ev) {
-        let x = (ev.clientX - window.width / 2) / window.width * 2;
-        let y = (ev.clientY - window.height / 2) / window.height * 2;
-        if(x < -0.9)
+        // console.log(window.innerWidth);
+        let x = (ev.clientX - window.innerWidth / 2) / window.innerWidth * 2;
+        let y = (ev.clientY - window.innerHeight / 2) / window.innerHeight * 2;
+        console.log(x);
+        if(x < -0.9) {
             leftExtreme = true;
-        else if(x > -0.1 && x < 0.1)
+            midExtreme = false;
+            rightExtreme = false;
+        }
+        else if(x > -0.1 && x < 0.1) {
             midExtreme = true;
-        else if(x > 0.9)
+            leftExtreme = false;
+            rightExtreme = false;
+        }
+        else if(x > 0.9) {
             rightExtreme = true;
+            midExtreme = false;
+            leftExtreme = false;
+        }else{
+            midExtreme = false;
+            leftExtreme = false;
+            rightExtreme = false;
+        }
         if(x >= 0.0) {
             onRightSide = true;
             if (midExtreme)
@@ -82,6 +97,7 @@ function main() {
                 multiplicand = (x + 0.1) / -0.8;
 
         }
+        // console.log(multiplicand);
         switch (animationStage){
             case 0:
                 if(leftExtreme)
@@ -133,7 +149,7 @@ function redraw() {
             TextureMap.push(((1.0 - multiplicand) * middleFrame.movedPoints[index].x + multiplicand * leftFrame.movedPoints[index].x) / canvasWidth,
                 1.0-(((1.0 - multiplicand) * middleFrame.movedPoints[index].y + multiplicand * leftFrame.movedPoints[index].y) / canvasHeight));
     }
-
+    // console.log(multiplicand);
     // Retrieve <canvas> element
     if (!gl) {
         console.log('Failed to get the rendering context for WebGL');
@@ -151,7 +167,6 @@ function redraw() {
 
 
 function drawTexture(Vertices, TextureMap) {
-    console.log(inputImage);
     var data = new Float32Array(Vertices.length + TextureMap.length ) ;
     var FSIZE = data.BYTES_PER_ELEMENT ;
     var bytePerVertex = 4 ;
