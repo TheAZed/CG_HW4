@@ -40,6 +40,7 @@ function main() {
     gl = getWebGLContext(canvas, true);
     canvasWidth = canvas.width;
     canvasHeight = canvas.height;
+    console.log(canvasHeight);
     FirstNormalFrame = JSON.parse(readFileAsText("../Keyframes/NormalFace.kf"));
     LookLeftFrame = JSON.parse(readFileAsText("../Keyframes/LookingLeft.kf"));
     LookRightFrame= JSON.parse(readFileAsText("../Keyframes/LookingRight.kf"));
@@ -58,7 +59,7 @@ function main() {
         // console.log(window.innerWidth);
         let x = (ev.clientX - window.innerWidth / 2) / window.innerWidth * 2;
         let y = (ev.clientY - window.innerHeight / 2) / window.innerHeight * 2;
-        console.log(x);
+        // console.log(x);
         if(x < -0.9) {
             leftExtreme = true;
             midExtreme = false;
@@ -140,16 +141,16 @@ function redraw() {
     let Vertices = [], TextureMap = [];
     for(let i = 0; i < middleFrame.triangleIndexesLength; i++){
         let index = middleFrame.triangleIndexes[i];
-        Vertices.push((middleFrame.referencePoints[index].x - canvasWidth / 2) / canvasWidth * 2,
-            -(middleFrame.referencePoints[index].y - canvasHeight / 2) / canvasHeight * 2);
+        TextureMap.push(middleFrame.referencePoints[index].x / canvasWidth,
+            1.0-(middleFrame.referencePoints[index].y) / canvasHeight);
         if(onRightSide)
-            TextureMap.push(((1.0 - multiplicand) * middleFrame.movedPoints[index].x + multiplicand * rightFrame.movedPoints[index].x) / canvasWidth,
-            1.0-(((1.0 - multiplicand) * middleFrame.movedPoints[index].y + multiplicand * rightFrame.movedPoints[index].y) / canvasHeight));
+            Vertices.push(((1.0 - multiplicand) * middleFrame.movedPoints[index].x + multiplicand * rightFrame.movedPoints[index].x - canvasWidth / 2) / canvasWidth * 2,
+            -(((1.0 - multiplicand) * middleFrame.movedPoints[index].y + multiplicand * rightFrame.movedPoints[index].y - canvasHeight / 2) / canvasHeight * 2));
         else
-            TextureMap.push(((1.0 - multiplicand) * middleFrame.movedPoints[index].x + multiplicand * leftFrame.movedPoints[index].x) / canvasWidth,
-                1.0-(((1.0 - multiplicand) * middleFrame.movedPoints[index].y + multiplicand * leftFrame.movedPoints[index].y) / canvasHeight));
+            Vertices.push(((1.0 - multiplicand) * middleFrame.movedPoints[index].x + multiplicand * leftFrame.movedPoints[index].x - canvasWidth / 2) / canvasWidth * 2,
+                -(((1.0 - multiplicand) * middleFrame.movedPoints[index].y + multiplicand * leftFrame.movedPoints[index].y - canvasHeight / 2) / canvasHeight * 2));
     }
-    // console.log(multiplicand);
+    console.log(multiplicand);
     // Retrieve <canvas> element
     if (!gl) {
         console.log('Failed to get the rendering context for WebGL');
